@@ -7,8 +7,8 @@ namespace DataAccess.Contracts
 {
     public interface IPatientsRepository
     {
-        Task<Guid> AddPatient(Patient patient);
-        Task<bool> DeletePatient(Guid Id);
-        Task<List<PatientDetails>> ListPatients(int page, int pageSize);
+        Guid AddPatient(Patient patient);
+        bool DeletePatient(Guid Id);
+        List<PatientDetails> ListPatients(int page, int pageSize);
     }
 }

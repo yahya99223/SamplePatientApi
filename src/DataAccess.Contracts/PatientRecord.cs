@@ -1,5 +1,4 @@
 ﻿using System;
-using Api.Models;
 using Shared.Models.enums;
 
 namespace DataAccess.Contracts
@@ -16,7 +15,7 @@ namespace DataAccess.Contracts
 
         public Gender Gender { get; set; }
 
-        public bool Vip { get; set; }
+        public bool Vip { get; set; } = false;
 
         public string Nationality { get; set; }
 

@@ -8,10 +8,6 @@ namespace DataAccess.Implementation
     {
         public PatientsDbContext(DbContextOptions<PatientsDbContext> options) : base(options) { }
         public DbSet<PatientRecord> Patients { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
 
     }
 }

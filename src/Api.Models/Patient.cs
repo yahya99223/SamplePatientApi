@@ -7,14 +7,14 @@ namespace Api.Models
     {
         public string Name { get; set; }
 
-        public int FileNo { get; set; }
+        public string FileNo { get; set; }
         public string CitizenId { get; set; }
 
-        public DateTime Birthdate { get; set; }
+        public string Birthdate { get; set; }
 
-        public Gender Gender { get; set; }
+        public string Gender { get; set; }
 
-        public bool Vip { get; set; }
+        public string Vip { get; set; }
 
         public string Nationality { get; set; }
 
@@ -40,6 +40,6 @@ namespace Api.Models
 
         public string Image { get; set; }//todo
 
-        public DateTime FirstVisitDate { get; set; }//todo
+        public string FirstVisitDate { get; set; }//todo
     }
 }

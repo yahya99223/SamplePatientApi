@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Implementation.Migrations
 {
     [DbContext(typeof(PatientsDbContext))]
-    [Migration("20200119081604_Initial")]
-    partial class Initial
+    [Migration("20200120210820_Snapshot")]
+    partial class Snapshot
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,8 +84,8 @@ namespace DataAccess.Implementation.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Vip")
-                        .HasColumnType("int");
+                    b.Property<bool>("Vip")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

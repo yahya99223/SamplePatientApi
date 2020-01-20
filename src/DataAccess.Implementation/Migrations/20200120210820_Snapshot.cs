@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Implementation.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Snapshot : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,7 @@ namespace DataAccess.Implementation.Migrations
                     CitizenId = table.Column<string>(nullable: true),
                     Birthdate = table.Column<DateTime>(nullable: false),
                     Gender = table.Column<int>(nullable: false),
-                    Vip = table.Column<int>(nullable: false),
+                    Vip = table.Column<bool>(nullable: false),
                     Nationality = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),

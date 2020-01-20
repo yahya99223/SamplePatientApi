@@ -1,5 +1,7 @@
 using DataAccess.Implementation;
 using HospitalApi.Accessories;
+using HospitalApi.Filters;
+using HospitalApi.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +13,6 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Shared.Ioc;
 using Shared.Models.Settings;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace HospitalApi
 {
@@ -30,8 +31,9 @@ namespace HospitalApi
             services.AddOptions();
             services.Configure<Settings>(Configuration);
             SharedInstaller.RegisterServices(services);
-            services.AddControllers().AddNewtonsoftJson(options =>
-                options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+            services.AddControllers().SetCompatibilityVersion(CompatibilityVersion.Latest)
+                .AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+            services.AddMvcCore().SetCompatibilityVersion(CompatibilityVersion.Latest).AddNewtonsoftJson();
             services.AddApiVersioning(o =>
             {
                 o.AssumeDefaultVersionWhenUnspecified = true;
@@ -53,6 +55,9 @@ namespace HospitalApi
                         .AllowAnyHeader()
                 );
             });
+            services.AddScoped<PatientValidationFilter>();
+            services.AddHealthChecks()
+                .AddCheck<ApiHealthCheck>("api");
             InitDatabase(services);
         }
 
@@ -71,10 +76,11 @@ namespace HospitalApi
             {
                 c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"v1");
             });
+            app.UseMiddleware<ExceptionsMiddleware>();
             app.UseRouting();
             app.UseCors("CorsPolicy");
             app.UseAuthorization();
-
+            app.UseHealthChecks("/health");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

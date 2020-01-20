@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Api.Models;
 using DataAccess.Contracts;
+using HospitalApi.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace HospitalApi.Controllers
 {
-    [ApiController]
     [Route("v{version:apiVersion}/[controller]")]
     public class PatientsController : ControllerBase
     {
@@ -16,20 +18,26 @@ namespace HospitalApi.Controllers
             _patientsRepository = patientsRepository;
         }
         [HttpGet]
-        public ActionResult<List<PatientDetails>> ListPatients([FromQuery] PagingParameters pagingParameters)
+        public async Task<ActionResult<List<PatientDetails>>> ListPatients([FromQuery] PagingParameters pagingParameters)
         {
-            return Ok(_patientsRepository.ListPatients(pagingParameters.Page, pagingParameters.PageSize).Result);
+            var patients = _patientsRepository.ListPatients(pagingParameters.Page, pagingParameters.PageSize);
+            if (patients == null || !patients.Any())
+                return NoContent();
+            return Ok(patients);
         }
         [HttpPost("patient")]
-        public ActionResult PostPatient([FromBody] Patient patient)
+        [PatientValidationFilter]
+        public async Task<ActionResult<Guid>> PostPatient([FromBody] Patient patient)
         {
-            _patientsRepository.AddPatient(patient);
-            return StatusCode(201);
+            var id = _patientsRepository.AddPatient(patient);
+            return StatusCode(201, new { Id = id });
         }
         [HttpDelete("{patientId}")]
-        public ActionResult DeletePatient([FromRoute] Guid patientId)
+        public async Task<ActionResult> DeletePatient([FromRoute] Guid patientId)
         {
-            _patientsRepository.DeletePatient(patientId);
+            var success = _patientsRepository.DeletePatient(patientId);
+            if (!success)
+                return NotFound();
             return Ok();
         }
 

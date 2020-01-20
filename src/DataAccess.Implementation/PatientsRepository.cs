@@ -18,27 +18,30 @@ namespace DataAccess.Implementation
             _mapper = mapper;
             _dbContext = dbContext;
         }
-        public async Task<Guid> AddPatient(Patient patient)
+        public Guid AddPatient(Patient patient)
         {
             var patientRecord = _mapper.Map<PatientRecord>(patient);
             patientRecord.Id = Guid.NewGuid();
             patientRecord.RecordCreationDate = DateTime.UtcNow;
-            await _dbContext.AddAsync(patientRecord);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.Add(patientRecord);
+            _dbContext.SaveChanges();
             return patientRecord.Id;
         }
 
-        public Task<bool> DeletePatient(Guid Id)
+        public bool DeletePatient(Guid id)
         {
-            var patientRecord = _dbContext.Patients.Find(Id);
+            var patientRecord = _dbContext.Patients.Find(id);
+            if (patientRecord == null)
+                return false;
             _dbContext.Patients.Remove(patientRecord);
             _dbContext.SaveChanges();
-            return Task.FromResult<bool>(true);
+            return true;
         }
 
-        public async Task<List<PatientDetails>> ListPatients(int page, int pageSize)
+        public List<PatientDetails> ListPatients(int page, int pageSize)
         {
-            return _dbContext.Patients.Skip((page - 1) * pageSize).Take(pageSize).Select(x => _mapper.Map<PatientDetails>(x)).ToList();
+            return _dbContext.Patients.Skip((page - 1) * pageSize).Take(pageSize)
+                .Select(x => _mapper.Map<PatientDetails>(x)).ToList();
         }
     }
 }
