@@ -82,8 +82,8 @@ namespace DataAccess.Implementation.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Vip")
-                        .HasColumnType("int");
+                    b.Property<bool>("Vip")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

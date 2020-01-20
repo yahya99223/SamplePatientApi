@@ -14,7 +14,7 @@ namespace Api.Models
 
         public Gender Gender { get; set; }
 
-        public IsVip Vip { get; set; }
+        public bool Vip { get; set; }
 
         public string Nationality { get; set; }
 
