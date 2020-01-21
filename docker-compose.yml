@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    environment:
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=eu-west-1
+      - HOSTNAME_EXTERNAL=localstack
+      - HOSTNAME=localstack
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    ports:
+      - "4572:4572"
+  aws-cli:
+    container_name: aws-cli
+    image: mesosphere/aws-cli
+    volumes:
+      - ./../scripts:/script
+    environment:
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_ACCESS_KEY_ID=test
+    entrypoint: /script/aws.sh
+    depends_on:
+      - localstack
+  hospitalapi:
+    container_name: hospitalapi
+    build:
+      target: final
+      args:
+        RELEASETYPE: "Debug"
+      context: ./../
+      dockerfile: src/HospitalApi/Dockerfile
+    environment:
+      - AWS_DEFAULT_REGION=eu-west-1
+      - ASPNETCORE_ENVIRONMENT=Development
+      - VERSION=1.0.dev
+    volumes:
+      - type: bind
+        source: ../src
+        target: /src/src
+    ports:
+      - 1990:80
+    depends_on:
+      - aws-cli
