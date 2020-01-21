@@ -8,7 +8,8 @@ namespace DataAccess.Contracts
     public interface IPatientsRepository
     {
         Guid AddPatient(Patient patient);
-        bool DeletePatient(Guid Id);
+        bool DeletePatient(Guid id);
         List<PatientDetails> ListPatients(int page, int pageSize);
+        PatientDetails GetPatient(Guid id);
     }
 }

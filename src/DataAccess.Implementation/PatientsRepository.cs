@@ -43,5 +43,13 @@ namespace DataAccess.Implementation
             return _dbContext.Patients.Skip((page - 1) * pageSize).Take(pageSize)
                 .Select(x => _mapper.Map<PatientDetails>(x)).ToList();
         }
+
+        public PatientDetails GetPatient(Guid id)
+        {
+            var patient = _dbContext.Patients.FirstOrDefault(x => x.Id == id);
+            if (patient == null)
+                return null;
+            return _mapper.Map<PatientDetails>(patient);
+        }
     }
 }

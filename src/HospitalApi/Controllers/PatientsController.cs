@@ -40,6 +40,13 @@ namespace HospitalApi.Controllers
                 return NotFound();
             return Ok();
         }
-
+        [HttpGet("{patientId}")]
+        public async Task<ActionResult> GetPatient([FromRoute] Guid patientId)
+        {
+            var patient = _patientsRepository.GetPatient(patientId);
+            if (patient == null)
+                return NotFound();
+            return Ok(patient);
+        }
     }
 }
