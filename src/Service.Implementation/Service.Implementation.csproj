@@ -6,16 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.100.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.1" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.110.14" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccess.Contracts\DataAccess.Contracts.csproj" />
     <ProjectReference Include="..\DataAccess.Implementation\DataAccess.Implementation.csproj" />
     <ProjectReference Include="..\Service.Contracts\Service.Contracts.csproj" />
-    <ProjectReference Include="..\Service.Implementation\Service.Implementation.csproj" />
   </ItemGroup>
 
 </Project>
