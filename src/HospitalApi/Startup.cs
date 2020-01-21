@@ -30,7 +30,7 @@ namespace HospitalApi
         {
             services.AddOptions();
             services.Configure<Settings>(Configuration);
-            SharedInstaller.RegisterServices(services);
+            SharedInstaller.RegisterServices(services, Configuration);
             services.AddControllers().SetCompatibilityVersion(CompatibilityVersion.Latest)
                 .AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
             services.AddMvcCore().SetCompatibilityVersion(CompatibilityVersion.Latest).AddNewtonsoftJson();

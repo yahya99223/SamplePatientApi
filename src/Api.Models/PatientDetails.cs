@@ -6,5 +6,6 @@ namespace Api.Models
     {
         public Guid Id { get; set; }
         public DateTime RecordCreationDate { get; set; }
+        public string Photo { get; set; }
     }
 }

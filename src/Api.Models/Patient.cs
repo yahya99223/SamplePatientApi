@@ -38,8 +38,6 @@ namespace Api.Models
 
         public string ContactPhone { get; set; }
 
-        public string Image { get; set; }//todo
-
-        public string FirstVisitDate { get; set; }//todo
+        public string FirstVisitDate { get; set; }
     }
 }

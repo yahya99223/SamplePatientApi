@@ -2,25 +2,26 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Api.Models;
-using DataAccess.Contracts;
 using HospitalApi.Filters;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
+using Service.Contracts;
 
 namespace HospitalApi.Controllers
 {
     [Route("v{version:apiVersion}/[controller]")]
     public class PatientsController : ControllerBase
     {
-        private readonly IPatientsRepository _patientsRepository;
-        public PatientsController(IPatientsRepository patientsRepository)
+        private readonly IPatientsService _patientsService;
+        public PatientsController(IPatientsService patientsService)
         {
-            _patientsRepository = patientsRepository;
+            _patientsService = patientsService;
         }
         [HttpGet]
         public async Task<ActionResult<List<PatientDetails>>> ListPatients([FromQuery] PagingParameters pagingParameters)
         {
-            var patients = _patientsRepository.ListPatients(pagingParameters.Page, pagingParameters.PageSize);
+            var patients = _patientsService.ListPatients(pagingParameters.Page, pagingParameters.PageSize);
             if (patients == null || !patients.Any())
                 return NoContent();
             return Ok(patients);
@@ -29,24 +30,45 @@ namespace HospitalApi.Controllers
         [PatientValidationFilter]
         public async Task<ActionResult<Guid>> PostPatient([FromBody] Patient patient)
         {
-            var id = _patientsRepository.AddPatient(patient);
+            var id = _patientsService.AddPatient(patient);
             return StatusCode(201, new { Id = id });
         }
+
+        [HttpGet("{patientId}")]
+        public async Task<ActionResult> GetPatient([FromRoute] Guid patientId)
+        {
+            var patient = _patientsService.GetPatient(patientId);
+            if (patient == null)
+                return NotFound();
+            return Ok(patient);
+        }
+
         [HttpDelete("{patientId}")]
         public async Task<ActionResult> DeletePatient([FromRoute] Guid patientId)
         {
-            var success = _patientsRepository.DeletePatient(patientId);
+            var success = _patientsService.DeletePatient(patientId);
             if (!success)
                 return NotFound();
             return Ok();
         }
-        [HttpGet("{patientId}")]
-        public async Task<ActionResult> GetPatient([FromRoute] Guid patientId)
+
+        [HttpPost("{patientId}/image")]
+        public async Task<ActionResult> PostPatientImage([FromRoute] Guid patientId, IFormFile image)
         {
-            var patient = _patientsRepository.GetPatient(patientId);
-            if (patient == null)
+            var imageStream = image.OpenReadStream();
+            var result = _patientsService.AttachImage(patientId, imageStream);
+            if (!result)
                 return NotFound();
-            return Ok(patient);
+            return Ok();
+        }
+
+        [HttpGet("{patientId}/image")]
+        public async Task<ActionResult> GetPatientImage([FromRoute] Guid patientId)
+        {
+            var result = _patientsService.GetPatientImage(patientId);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
         }
     }
 }
