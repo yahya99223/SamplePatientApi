@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Implementation.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace DataAccess.Implementation.Migrations
                     Name = table.Column<string>(nullable: true),
                     FileNo = table.Column<int>(nullable: false),
                     CitizenId = table.Column<string>(nullable: true),
-                    Birthdate = table.Column<DateTime>(nullable: false),
+                    Birthdate = table.Column<DateTime>(nullable: true),
                     Gender = table.Column<int>(nullable: false),
                     Vip = table.Column<bool>(nullable: false),
                     Nationality = table.Column<string>(nullable: true),
@@ -30,7 +30,7 @@ namespace DataAccess.Implementation.Migrations
                     ContactRelation = table.Column<string>(nullable: true),
                     ContactPhone = table.Column<string>(nullable: true),
                     Image = table.Column<string>(nullable: true),
-                    FirstVisitDate = table.Column<DateTime>(nullable: false),
+                    FirstVisitDate = table.Column<DateTime>(nullable: true),
                     RecordCreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

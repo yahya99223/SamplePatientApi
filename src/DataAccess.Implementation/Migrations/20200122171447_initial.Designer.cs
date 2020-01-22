@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Implementation.Migrations
 {
     [DbContext(typeof(PatientsDbContext))]
-    [Migration("20200122071634_init")]
-    partial class init
+    [Migration("20200122171447_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace DataAccess.Implementation.Migrations
                     b.Property<string>("Address2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Birthdate")
+                    b.Property<DateTime?>("Birthdate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CitizenId")
@@ -60,7 +60,7 @@ namespace DataAccess.Implementation.Migrations
                     b.Property<int>("FileNo")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FirstVisitDate")
+                    b.Property<DateTime?>("FirstVisitDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Gender")
