@@ -35,7 +35,7 @@ namespace HospitalApi.Filters
                 }
 
                 if (string.IsNullOrEmpty(patient.Gender))
-                    error.AddError(nameof(patient.Name), "Field is mandatory");
+                    error.AddError(nameof(patient.Gender), "Field is mandatory");
                 else
                 {
                     if (!Enum.TryParse(patient.Gender, out Gender sex))
