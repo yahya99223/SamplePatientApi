@@ -11,7 +11,7 @@ namespace DataAccess.Contracts
         public int FileNo { get; set; }
         public string CitizenId { get; set; }
 
-        public DateTime Birthdate { get; set; }
+        public DateTime? Birthdate { get; set; }
 
         public Gender Gender { get; set; }
 
@@ -41,7 +41,7 @@ namespace DataAccess.Contracts
 
         public string Image { get; set; }//todo
 
-        public DateTime FirstVisitDate { get; set; }//todo
+        public DateTime? FirstVisitDate { get; set; }//todo
         public DateTime RecordCreationDate { get; set; }
     }
 }

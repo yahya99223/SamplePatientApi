@@ -82,10 +82,13 @@ namespace Service.Implementation
 
         public PatientDetails GetPatient(Guid id)
         {
-            var patient = _dbContext.Patients.FirstOrDefault(x => x.Id == id);
-            if (patient == null)
+            var data = _dbContext.Patients.FirstOrDefault(x => x.Id == id);
+            if (data == null)
                 return null;
-            return _mapper.Map<PatientDetails>(patient);
+            var patient= _mapper.Map<PatientDetails>(data);
+            if (!string.IsNullOrEmpty(data.Image))
+                patient.Photo = $"{_settings.BasePath}/patients/{patient.Id}/photo";
+            return patient;
         }
     }
 }

@@ -55,7 +55,8 @@ namespace HospitalApi.Controllers
         [HttpPost("{patientId}/photo")]
         public async Task<ActionResult> PostPatientImage([FromRoute] Guid patientId, IFormFile image)
         {
-            Console.WriteLine("controller reached");
+            if (image == null)
+                return BadRequest(new ErrorResponse(nameof(image),"Please submit a file image with name image"));
             var imageStream = image.OpenReadStream();
             var result = _patientsService.AttachImage(patientId, imageStream);
             if (!result)
