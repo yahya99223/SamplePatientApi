@@ -22,6 +22,7 @@ namespace HospitalApi.Middlewares
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = 500;
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(new { Message = "Couldn't handle this request properly, please contact support" }));

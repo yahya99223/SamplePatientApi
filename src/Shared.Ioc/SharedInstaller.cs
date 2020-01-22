@@ -1,4 +1,7 @@
-﻿using Amazon.S3;
+﻿using System.Reflection.Metadata.Ecma335;
+using Amazon;
+using Amazon.Runtime;
+using Amazon.S3;
 using AutoMapper;
 using DataAccess.Implementation;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,8 +27,18 @@ namespace Shared.Ioc
             {
                 cfg.AddProfile(new MappingProfile());
             }).CreateMapper());
-            services.AddDefaultAWSOptions(configuration.GetAWSOptions());
-            services.AddAWSService<IAmazonS3>();
+            services.AddSingleton<AmazonS3Client>(x =>
+            {
+                var client = new AmazonS3Client(
+                    new BasicAWSCredentials(appSettings.StorageSettings.AccessKey,
+                        appSettings.StorageSettings.AccessKeyId),
+                    new AmazonS3Config()
+                    {
+                        ServiceURL = appSettings.StorageSettings.ServiceURL,
+                        ForcePathStyle = true,
+                    });
+                return client;
+            });
         }
     }
 }

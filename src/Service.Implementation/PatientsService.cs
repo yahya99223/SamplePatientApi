@@ -74,7 +74,7 @@ namespace Service.Implementation
             {
                 var tempPatient = _mapper.Map<PatientDetails>(patient);
                 if (!string.IsNullOrEmpty(patient.Image))
-                    tempPatient.Photo = $"{_settings.BasePath}/patients/{patient.Id}/image";
+                    tempPatient.Photo = $"{_settings.BasePath}/patients/{patient.Id}/photo";
                 resultPatients.Add(tempPatient);
             }
             return resultPatients;

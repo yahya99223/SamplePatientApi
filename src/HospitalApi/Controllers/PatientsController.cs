@@ -52,9 +52,10 @@ namespace HospitalApi.Controllers
             return Ok();
         }
 
-        [HttpPost("{patientId}/image")]
+        [HttpPost("{patientId}/photo")]
         public async Task<ActionResult> PostPatientImage([FromRoute] Guid patientId, IFormFile image)
         {
+            Console.WriteLine("controller reached");
             var imageStream = image.OpenReadStream();
             var result = _patientsService.AttachImage(patientId, imageStream);
             if (!result)
@@ -62,7 +63,7 @@ namespace HospitalApi.Controllers
             return Ok();
         }
 
-        [HttpGet("{patientId}/image")]
+        [HttpGet("{patientId}/photo")]
         public async Task<ActionResult> GetPatientImage([FromRoute] Guid patientId)
         {
             var result = _patientsService.GetPatientImage(patientId);

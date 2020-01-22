@@ -1,5 +1,10 @@
 version: "3.7"
 services:
+  db:
+    image: "microsoft/mssql-server-linux"
+    environment:
+        SA_PASSWORD: "Your_password123"
+        ACCEPT_EULA: "Y"
   localstack:
     image: localstack/localstack
     container_name: localstack
@@ -26,6 +31,7 @@ services:
       - localstack
   hospitalapi:
     container_name: hospitalapi
+    restart: unless-stopped
     build:
       target: final
       args:
@@ -34,6 +40,13 @@ services:
       dockerfile: src/HospitalApi/Dockerfile
     environment:
       - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_ACCESS_KEY_ID=test
+      - StorageSettings__BucketName=rawbucket
+      - StorageSettings__AccessKey=test
+      - StorageSettings__AccessKeyId=test
+      - DataAccessSettings__ConnectionString=Server=db;Database=master;User=sa;Password=Your_password123;
+      - StorageSettings__ServiceURL=http://localstack:4572
       - ASPNETCORE_ENVIRONMENT=Development
       - VERSION=1.0.dev
     volumes:
@@ -41,6 +54,7 @@ services:
         source: ../src
         target: /src/src
     ports:
-      - 1990:80
+      - 1992:80
     depends_on:
       - aws-cli
+      - db

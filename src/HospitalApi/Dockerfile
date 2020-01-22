@@ -5,11 +5,6 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
 WORKDIR /src
 COPY src/HospitalApi/HospitalApi.csproj src/HospitalApi/
-COPY src/API.Models/API.Models.csproj src/API.Models/
-COPY src/Shared.IOC/Shared.IOC.csproj src/Shared.IOC/
-COPY src/Service.Implementation/Service.Implementation.csproj src/Service.Implementation/
-COPY src/Service.Contracts/Service.Contracts.csproj src/Service.Contracts/
-COPY src/Shared.Core/Shared.Core.csproj src/Shared.Core/
 
 RUN dotnet restore src/HospitalApi/HospitalApi.csproj
 COPY . .

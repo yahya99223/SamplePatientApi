@@ -14,8 +14,8 @@ namespace Service.Implementation
     public class StorageHandler : IStorageHandler
     {
         private readonly StorageSettings _storageSettings;
-        private readonly IAmazonS3 _client;
-        public StorageHandler(IOptions<Settings> appSettings, IAmazonS3 client)
+        private readonly AmazonS3Client _client;
+        public StorageHandler(IOptions<Settings> appSettings, AmazonS3Client client)
         {
             _storageSettings = appSettings.Value.StorageSettings;
             _client = client;
